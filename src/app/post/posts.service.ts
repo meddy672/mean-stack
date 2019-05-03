@@ -22,6 +22,8 @@ export class PostService {
     this.httpClient.get<{ message: string, posts: Post[] }>('http://localhost:3000/api/post')
       .subscribe((postData) => {
         this.posts = postData.posts;
+
+        // Pass a copy of the post to DOM
         this.postsUpdated.next([...this.posts]);
       });
   }
