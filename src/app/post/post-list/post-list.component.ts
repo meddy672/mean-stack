@@ -13,12 +13,22 @@ export class PostListComponent implements OnInit, OnDestroy {
 
 
   posts: Post[] = [];
+
+  // will fetch post subjectes from the post service OnInit
   private subscription: Subscription;
+
+  // Creates post service to be used to fetch post data from the backend
   constructor(public postService: PostService) {
 
 
   }
 
+  /**
+   * When the pages loads postService will fetch data from the backend
+   * and initialize post array variable.
+   *
+   * The subscription will be used to update the DOM and add new post to the array.
+   */
   ngOnInit() {
     console.log('Getting Post');
     this.posts = this.postService.getPosts();
