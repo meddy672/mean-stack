@@ -15,8 +15,14 @@ export class PostCreateComponent {
   enteredTitle = "";
   enteredContent = "";
 
+  // A service object to be used to create new post
   constructor(public postService: PostService) { }
 
+  /**
+   *
+   * @param form
+   * Takes in form from DOM
+   */
   onAddPost(form: NgForm) {
     if (form.invalid) {
       return;
