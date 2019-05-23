@@ -1,9 +1,11 @@
 /* Creating an exoress application */
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
-const Post = require('./models/posts');
+const postRoutes = require('./routes/posts.js');
 const mongoose = require('mongoose');
+
+const app = express();
+
 
 mongoose.connect('mongodb+srv://meddy672:CastleBlack46!@cluster0-nr6ed.mongodb.net/test?retryWrites=true')
   .then(() => {
@@ -26,47 +28,13 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept");
   res.setHeader("Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS");
+    "GET, POST, PATCH, DELETE, PUT, OPTIONS");
   next();
 });
 
-app.post('/api/posts', (req, res, next) => {
+app.use('/api/posts', postRoutes);
 
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-  });
-  post.save();
-  console.log(post);
-  res.status(201).json({
-    message: 'Post added successfully'
-  });
-});
 
-app.get('/api/post', (req, res, next) => {
-
-  Post.find().then(document => {
-
-    res.status(200).json({
-      message: 'Post feteched successfully',
-      posts: document
-    });
-  });
-});
-
-app.delete('/api/posts/:id', (req, res, next) => {
-  console.log(req.params.id);
-  Post.deleteOne({
-    _id: req.params.id
-  }).post.save().then(result => {
-    console.log(result);
-    res.status(200).json({
-      message: "Post deleted",
-      postId: result._id
-    });
-  });
-
-});
 
 // export the express app and all of its middleware
 module.exports = app;
